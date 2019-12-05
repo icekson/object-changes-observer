@@ -135,13 +135,9 @@ export class ChangesObserver<T extends Object> implements CancelationToken, Appl
             this.changes.push(new Changes(obj, prop, value));
             if (prop !== '__id') {
                 const original = await this.getHash(JSON.stringify(handler.original));
-                const mutable = await this.getHash(JSON.stringify(obj));
-                const prevCount = this.countChanges;
+                const mutable = await this.getHash(JSON.stringify(obj));                
                 handler.changed = (original !== mutable);
-                if (this.countStrategy === CountChangesStrategy.CountAllChanges ||
-                    this.countStrategy === CountChangesStrategy.CountFields && (prevCount !== this.countChanges)) {
-                    this.onChanges.next({ id: this._id, changedObject: obj, property: prop, value: value, changesCount: this.countChanges });
-                }
+                this.onChanges.next({ id: this._id, changedObject: obj, property: prop, value: value, changesCount: this.countChanges });
             }
             return true;
         };

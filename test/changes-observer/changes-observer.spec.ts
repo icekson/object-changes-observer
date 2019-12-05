@@ -73,7 +73,7 @@ describe('ChangesObserver', () => {
     const observer = new ChangesObserver<TestObject>(data);
     const proxy = observer.getProxy();
 
-    observer.valueChanged.pipe(skip(1)).subscribe((event: CancelEvent) => {
+    observer.valueChanged.pipe(skip(3)).subscribe((event: CancelEvent) => {
       expect(observer.countChanges).toBe(2);
       done();
     });
